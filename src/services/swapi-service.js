@@ -22,11 +22,11 @@ export default class SwapiService {
         return this.getResource(`/people/${id}/`)
     }
     getAllPlanet() {
-        return this.getResource('/planet/')
+        return this.getResource('/planets/')
     }
 
     getAllPlanetId(id) {
-        return this.getResource(`/planet/${id}/`)
+        return this.getResource(`/planets/${id}/`)
     }
     getAllStarships() {
         return this.getResource('/starships/')
@@ -36,9 +36,3 @@ export default class SwapiService {
         return this.getResource(`/starships/${id}/`)
     }
 };
-
-const swapi = new SwapiService();
-
-swapi.getAllStarships().then((body) => {
-    console.log(body)
-});
