@@ -14,25 +14,44 @@ export default class SwapiService {
         
         return body;
     }
-    getAllPeople() {
-        return this.getResource('/people/')
+    async getAllPeople() {
+        const res = await this.getResource('/people/')
+        return res.results;
     }
 
-    getAllPeopleId(id) {
+    getPeople(id) {
         return this.getResource(`/people/${id}/`)
     }
-    getAllPlanet() {
-        return this.getResource('/planets/')
+    
+    async getAllPlanet() {
+        const res = await this.getResource('/planets/')
+        return res.results.map(this._transformPlanet);
     }
 
-    getAllPlanetId(id) {
-        return this.getResource(`/planets/${id}/`)
-    }
-    getAllStarships() {
-        return this.getResource('/starships/')
+    async getPlanet(id) {
+        const planet = await this.getResource(`/planets/${id}/`)
+        return this._transformPlanet(planet);
     }
 
-    getAllStarshipId(id) {
+    async getAllStarships() {
+        const res = this.getResource('/starships/')
+        return res.results;
+    }
+
+    getStarship(id) {
         return this.getResource(`/starships/${id}/`)
+    }
+
+    _transformPlanet(planet) {
+        const idRedExp = /\/([0-9]*)\/$/;
+        const id = planet.url.match(idRedExp)[1];
+
+        return {
+            id,
+            name: planet.name,
+            population: planet.population,
+            rotationPeriod: planet.rotation_period,
+            diameter: planet.diameter
+          }
     }
 };
